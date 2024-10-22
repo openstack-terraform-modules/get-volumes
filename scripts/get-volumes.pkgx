@@ -37,7 +37,7 @@ VOLUMES="$(
 printf '%s %s' \
        "${HORODATE}" \
        "${VOLUMES}" \
-     > "${DEBUG_FILE_PATH}"
+     >> "${DEBUG_FILE_PATH}"
 
 VOLUMES_FILTER='.[]|select(.Properties.DEPLOYMENT_UUID==$deployment_uuid and .Properties.CLUSTER_PREFIX==$cluster_prefix
                and .Properties.GROUP_PREFIX==$group_prefix
