@@ -43,10 +43,10 @@ printf '%s %s' \
 
 VOLUMES_FILTER='
     .[]
-  | select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
+  | map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
        and .Properties.CLUSTER_PREFIX==$cluster_prefix
        and .Properties.GROUP_PREFIX==$group_prefix
-    )
+    ))
 '
 
 FILTERED_VOLUMES="$(
@@ -57,7 +57,7 @@ FILTERED_VOLUMES="$(
             "${VOLUMES_FILTER}"
 )"
 
-printf '{"volumes":[%s]}' \
+printf '{"volumes":%s}' \
        "${FILTERED_VOLUMES}" \
      > "${OUTPUT_FILE_PATH}"
 

@@ -1,4 +1,3 @@
-
 data external get-volumes {
     #
     # https://registry.terraform.io/providers/hashicorp/external/latest/docs/data-sources/external
