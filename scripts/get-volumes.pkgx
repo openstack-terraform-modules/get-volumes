@@ -42,11 +42,10 @@ printf '%s %s' \
      >> "${DEBUG_FILE_PATH}"
 
 VOLUMES_FILTER='
-    .[]
-  | map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
+map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
        and .Properties.CLUSTER_PREFIX==$cluster_prefix
        and .Properties.GROUP_PREFIX==$group_prefix
-    ))
+))
 '
 
 FILTERED_VOLUMES="$(
