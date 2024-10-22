@@ -1,0 +1,32 @@
+INPUT="$( [[ -p /dev/stdin ]] && cat - || echo "$@" )"
+
+DEPLOYMENT_UUID="$(
+    printf '%s' "${INPUT}" \
+  | pkgx jq --raw-output '.deployment_uuid'
+)"
+CLUSTER_PREFIX="$(
+    printf '%s' "${INPUT}" \
+  | pkgx jq --raw-output '.cluster_prefix'
+)"
+GROUP_PREFIX="$(
+    printf '%s' "${INPUT}" \
+  | pkgx jq --raw-output '.group_prefix'
+)"
+
+VOLUMES="$(
+  pkgx openstack \
+  --os-cloud "${OS_CLOUD}" \
+  --format json \
+  --long
+)"
+FILTERED_VOLUMES="$(
+    printf "%s" "${VOLUMES}" \
+  | pkgx jq --arg deployment_uuid "${DEPLOYMENT_UUID}" \
+            --arg cluster_prefix "${CLUSTER_PREFIX}" \
+            --arg group_prefix "${GROUP_PREFIX}" \
+            '.[]|select(
+                   (.Properties.DEPLOYMENT_UUID==$deployment_uuid)
+               and (.Properties.CLUSTER_PREFIX==$cluster_prefix)
+               and (.Properties.GROUP_PREFIX==$group_prefix)
+                )'
+)"
