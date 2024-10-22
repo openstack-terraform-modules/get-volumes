@@ -4,7 +4,8 @@ MODULE_PATH="$( dirname "${BASH_SOURCE[0]}" )"
 PROJECT_PATH="$( realpath "${MODULE_PATH}/../../../" )"
 HORODATE="$(date)"
 
-OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes.log"
+DEBUG_FILE_PATH="${PROJECT_PATH}/get-volumes.log"
+OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes.json"
 
 DEPLOYMENT_UUID="$(
     printf '%s' "${INPUT}" \
@@ -25,6 +26,11 @@ VOLUMES="$(
     --format json \
     --long
 )"
+
+printf '%s %s' \
+       "${HORODATE}" \
+       "${VOLUMES}" \
+     > "${DEBUG_FILE_PATH}"
 
 FILTERED_VOLUMES="$(
     printf "%s" "${VOLUMES}" \
