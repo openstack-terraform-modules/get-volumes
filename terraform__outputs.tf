@@ -1,5 +1,12 @@
 output outputs {
+    #value = {
+    #    for k, v in data.external.get-volumes : k => v
+    #}
     value = {
-        for k, v in data.external.get-volumes : k => v
+        volumes = lookup(
+            data.external.get-volumes.result,
+            "volumes",
+            "NOT FOUND ERROR"
+        )
     }
 }
