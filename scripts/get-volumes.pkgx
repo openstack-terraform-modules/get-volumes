@@ -23,6 +23,7 @@ GROUP_PREFIX="$(
 VOLUMES="$(
   pkgx openstack \
     --os-cloud "${OS_CLOUD}" \
+    volume list \
     --format json \
     --long
 )"
