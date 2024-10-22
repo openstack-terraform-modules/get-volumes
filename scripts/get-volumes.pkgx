@@ -6,7 +6,6 @@ HORODATE="$(date)"
 
 OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes.log"
 
-
 DEPLOYMENT_UUID="$(
     printf '%s' "${INPUT}" \
   | pkgx jq --raw-output '.deployment_uuid'
@@ -40,7 +39,7 @@ FILTERED_VOLUMES="$(
 )"
 
 printf '{"volumes":[%s]}' \
-       "${FILTERED_VOLUMES}"
-      > "${OUTPUT_FILE_PATH}"
+       "${FILTERED_VOLUMES}" \
+     > "${OUTPUT_FILE_PATH}"
 
 cat "${OUTPUT_FILE_PATH}"
