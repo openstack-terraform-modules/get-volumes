@@ -1,3 +1,5 @@
+#!/usr/bin/env -S pkgx +jq^1.7 +bash^5 bash
+
 INPUT="$( [[ -p /dev/stdin ]] && cat - || echo "$@" )"
 
 MODULE_PATH="$( dirname "${BASH_SOURCE[0]}" )"
@@ -39,9 +41,13 @@ printf '%s %s' \
        "${VOLUMES}" \
      >> "${DEBUG_FILE_PATH}"
 
-VOLUMES_FILTER='.[]|select(.Properties.DEPLOYMENT_UUID==$deployment_uuid and .Properties.CLUSTER_PREFIX==$cluster_prefix
-               and .Properties.GROUP_PREFIX==$group_prefix
-                )'
+VOLUMES_FILTER='
+    .[]
+  | select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
+       and .Properties.CLUSTER_PREFIX==$cluster_prefix
+       and .Properties.GROUP_PREFIX==$group_prefix
+    )
+'
 
 FILTERED_VOLUMES="$(
     printf "%s" "${VOLUMES}" \
