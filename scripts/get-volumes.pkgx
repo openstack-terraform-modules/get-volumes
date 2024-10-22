@@ -7,6 +7,12 @@ HORODATE="$(date)"
 DEBUG_FILE_PATH="${PROJECT_PATH}/get-volumes.log"
 OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes.json"
 
+
+printf '[%s] INPUT: %s\n' \
+       "${HORODATE}" \
+       "${INPUT}" \
+    >> "${PROJECT_PATH}/get-volumes.log"
+
 DEPLOYMENT_UUID="$(
     printf '%s' "${INPUT}" \
   | pkgx jq --raw-output '.deployment_uuid'
@@ -33,16 +39,16 @@ printf '%s %s' \
        "${VOLUMES}" \
      > "${DEBUG_FILE_PATH}"
 
+VOLUMES_FILTER='.[]|select(.Properties.DEPLOYMENT_UUID==$deployment_uuid and .Properties.CLUSTER_PREFIX==$cluster_prefix
+               and .Properties.GROUP_PREFIX==$group_prefix
+                )'
+
 FILTERED_VOLUMES="$(
     printf "%s" "${VOLUMES}" \
   | pkgx jq --arg deployment_uuid "${DEPLOYMENT_UUID}" \
             --arg cluster_prefix "${CLUSTER_PREFIX}" \
             --arg group_prefix "${GROUP_PREFIX}" \
-            '.[]|select(
-                   .Properties.DEPLOYMENT_UUID==$deployment_uuid
-               and .Properties.CLUSTER_PREFIX==$cluster_prefix
-               and .Properties.GROUP_PREFIX==$group_prefix
-                )'
+            "${VOLUMES_FILTER}"
 )"
 
 printf '{"volumes":[%s]}' \
