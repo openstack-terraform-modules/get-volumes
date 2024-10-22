@@ -18,3 +18,7 @@ variable group_prefix {
 variable volume_name {
     type = string
 }
+
+variable OS_CLOUD {
+    type = string
+}

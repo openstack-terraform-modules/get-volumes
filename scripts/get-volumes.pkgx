@@ -33,9 +33,9 @@ FILTERED_VOLUMES="$(
             --arg cluster_prefix "${CLUSTER_PREFIX}" \
             --arg group_prefix "${GROUP_PREFIX}" \
             '.[]|select(
-                   (.Properties.DEPLOYMENT_UUID==$deployment_uuid)
-               and (.Properties.CLUSTER_PREFIX==$cluster_prefix)
-               and (.Properties.GROUP_PREFIX==$group_prefix)
+                   .Properties.DEPLOYMENT_UUID==$deployment_uuid
+               and .Properties.CLUSTER_PREFIX==$cluster_prefix
+               and .Properties.GROUP_PREFIX==$group_prefix
                 )'
 )"
 
