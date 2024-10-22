@@ -36,7 +36,7 @@ VOLUMES="$(
     --long
 )"
 
-printf '%s %s' \
+printf '[%s] VOLUMES: %s' \
        "${HORODATE}" \
        "${VOLUMES}" \
      >> "${DEBUG_FILE_PATH}"
