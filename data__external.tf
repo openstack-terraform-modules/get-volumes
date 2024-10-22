@@ -9,7 +9,7 @@ data external get-volumes {
     ]
 
     query = {
-        deployment_uuid = local.deployment_uuid
+        deployment_uuid = local.deployment.uuid
         cluster_prefix = local.cluster_prefix
         group_prefix = local.group_prefix
     }
