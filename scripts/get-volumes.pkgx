@@ -1,5 +1,12 @@
 INPUT="$( [[ -p /dev/stdin ]] && cat - || echo "$@" )"
 
+MODULE_PATH="$( dirname "${BASH_SOURCE[0]}" )"
+PROJECT_PATH="$( realpath "${MODULE_PATH}/../../../" )"
+HORODATE="$(date)"
+
+OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes.log"
+
+
 DEPLOYMENT_UUID="$(
     printf '%s' "${INPUT}" \
   | pkgx jq --raw-output '.deployment_uuid'
@@ -15,10 +22,11 @@ GROUP_PREFIX="$(
 
 VOLUMES="$(
   pkgx openstack \
-  --os-cloud "${OS_CLOUD}" \
-  --format json \
-  --long
+    --os-cloud "${OS_CLOUD}" \
+    --format json \
+    --long
 )"
+
 FILTERED_VOLUMES="$(
     printf "%s" "${VOLUMES}" \
   | pkgx jq --arg deployment_uuid "${DEPLOYMENT_UUID}" \
@@ -30,3 +38,9 @@ FILTERED_VOLUMES="$(
                and (.Properties.GROUP_PREFIX==$group_prefix)
                 )'
 )"
+
+printf '{"volumes":[%s]}' \
+       "${FILTERED_VOLUMES}"
+      > "${OUTPUT_FILE_PATH}"
+
+cat "${OUTPUT_FILE_PATH}"
