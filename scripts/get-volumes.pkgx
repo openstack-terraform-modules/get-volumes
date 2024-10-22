@@ -7,13 +7,11 @@ PROJECT_PATH="$( realpath "${MODULE_PATH}/../../../" )"
 HORODATE="$(date)"
 
 DEBUG_FILE_PATH="${PROJECT_PATH}/get-volumes.log"
-OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes.json"
-
 
 printf '[%s] INPUT: %s\n' \
        "${HORODATE}" \
        "${INPUT}" \
-    >> "${PROJECT_PATH}/get-volumes.log"
+    >> "${DEBUG_FILE_PATH}"
 
 DEPLOYMENT_UUID="$(
     printf '%s' "${INPUT}" \
@@ -27,6 +25,8 @@ GROUP_PREFIX="$(
     printf '%s' "${INPUT}" \
   | pkgx jq --raw-output '.group_prefix'
 )"
+
+OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes-${GROUP_PREFIX}.json"
 
 VOLUMES="$(
   pkgx openstack \
