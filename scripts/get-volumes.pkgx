@@ -36,7 +36,7 @@ printf '[%s] VOLUMES: %s' \
     >> "${DEBUG_FILE_PATH}"
 
 
-VOLUMES_FILTER='map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid)'
+VOLUMES_FILTER='map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid))'
 FILTERED_VOLUMES="$(
     printf "%s" "${VOLUMES}" \
   | jq --arg deployment_uuid "${DEPLOYMENT_UUID}" \
