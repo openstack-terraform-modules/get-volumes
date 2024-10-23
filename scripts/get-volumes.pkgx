@@ -29,7 +29,7 @@ GROUP_PREFIX="$(
 OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes-${GROUP_PREFIX}.json"
 
 VOLUMES="$(
-  pkgx openstack \
+  pkgx openstack@latest \
     --os-cloud "${OS_CLOUD}" \
     volume list \
     --format json \
