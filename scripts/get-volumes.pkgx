@@ -20,7 +20,8 @@ DEPLOYMENT_UUID="$(
   | jq --raw-output '.deployment_uuid'
 )"
 
-INVENTORY_FILE_PATH="${PROJECT_PATH}/get-volumes-${DEPLOYMENT_UUID}.json"
+INVENTORY_FILE_PATH="${PROJECT_PATH}/get-volumes-${DEPLOYMENT_UUID}.inventory.json"
+OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes-${DEPLOYMENT_UUID}.output.json"
 
 VOLUMES="$(
   openstack \
