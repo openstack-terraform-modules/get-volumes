@@ -19,16 +19,8 @@ DEPLOYMENT_UUID="$(
     printf '%s' "${INPUT}" \
   | jq --raw-output '.deployment_uuid'
 )"
-CLUSTER_PREFIX="$(
-    printf '%s' "${INPUT}" \
-  | jq --raw-output '.cluster_prefix'
-)"
-GROUP_PREFIX="$(
-    printf '%s' "${INPUT}" \
-  | jq --raw-output '.group_prefix'
-)"
 
-OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes-${GROUP_PREFIX}.json"
+INVENTORY_FILE_PATH="${PROJECT_PATH}/get-volumes-${DEPLOYMENT_UUID}.json"
 
 VOLUMES="$(
   openstack \
@@ -41,26 +33,23 @@ VOLUMES="$(
 printf '[%s] VOLUMES: %s' \
        "${HORODATE}" \
        "${VOLUMES}" \
-     >> "${DEBUG_FILE_PATH}"
+    >> "${DEBUG_FILE_PATH}"
 
-VOLUMES_FILTER='
-map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
-       and .Properties.CLUSTER_PREFIX==$cluster_prefix
-       and .Properties.GROUP_PREFIX==$group_prefix)
-  | { "\(.Properties.GROUP_INDEX)": "\(.ID)" }
-) | add
-'
 
+VOLUMES_FILTER='map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid)'
 FILTERED_VOLUMES="$(
     printf "%s" "${VOLUMES}" \
   | jq --arg deployment_uuid "${DEPLOYMENT_UUID}" \
-       --arg cluster_prefix "${CLUSTER_PREFIX}" \
-       --arg group_prefix "${GROUP_PREFIX}" \
        "${VOLUMES_FILTER}"
 )"
 
 printf '%s' \
        "${FILTERED_VOLUMES}" \
+     > "${INVENTORY_FILE_PATH}"
+
+
+printf '{ "inventory_file_path": "%s"}' \
+       "${INVENTORY_FILE_PATH}" \
      > "${OUTPUT_FILE_PATH}"
 
 cat "${OUTPUT_FILE_PATH}"

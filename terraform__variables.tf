@@ -6,7 +6,7 @@ variable deployment {
       domain_name = string
     })
 }
-
+/*
 variable cluster_prefix {
     type = string
 }
@@ -18,7 +18,7 @@ variable group_prefix {
 variable volume_name {
     type = string
 }
-
-variable OS_CLOUD {
-    type = string
-}
+*/
+//variable OS_CLOUD {
+//    type = string
+//}
