@@ -57,7 +57,7 @@ FILTERED_VOLUMES="$(
             "${VOLUMES_FILTER}"
 )"
 
-printf '{"volumes":%s}' \
+printf '%s' \
        "${FILTERED_VOLUMES}" \
      > "${OUTPUT_FILE_PATH}"
 
