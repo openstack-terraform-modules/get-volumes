@@ -1,4 +1,6 @@
+#
 #!/usr/bin/env -S pkgx +openstack^7.2 +jq^1.7 +bash^5 bash
+#
 
 INPUT="$( [[ -p /dev/stdin ]] && cat - || echo "$@" )"
 

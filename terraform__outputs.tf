@@ -1,3 +1,3 @@
 output outputs {
-    value = jsondecode(data.external.get-volumes.result)
+    value = data.external.get-volumes.result
 }
