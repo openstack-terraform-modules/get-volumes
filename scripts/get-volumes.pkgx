@@ -44,8 +44,9 @@ printf '[%s] VOLUMES: %s' \
 VOLUMES_FILTER='
 map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
        and .Properties.CLUSTER_PREFIX==$cluster_prefix
-       and .Properties.GROUP_PREFIX==$group_prefix
-))
+       and .Properties.GROUP_PREFIX==$group_prefix)
+  | { "\(.Properties.GROUP_INDEX)": "\(.ID)" }
+)
 '
 
 FILTERED_VOLUMES="$(
