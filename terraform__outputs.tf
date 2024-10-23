@@ -3,10 +3,10 @@ output outputs {
     #    for k, v in data.external.get-volumes : k => v
     #}
     value = {
-        volumes = jsondecode(lookup(
+        volumes = lookup(
             data.external.get-volumes.result,
             "volumes",
-            "{\"error\":\"NOT FOUND ERROR\"}"
-        ))
+            "NOT FOUND ERROR"
+        )
     }
 }
