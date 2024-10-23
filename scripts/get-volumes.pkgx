@@ -1,4 +1,4 @@
-#!/usr/bin/env -S pkgx +jq^1.7 +bash^5 bash
+#!/usr/bin/env -S pkgx +openstack^7.2 +jq^1.7 +bash^5 bash
 
 INPUT="$( [[ -p /dev/stdin ]] && cat - || echo "$@" )"
 
@@ -15,21 +15,21 @@ printf '[%s] INPUT: %s\n' \
 
 DEPLOYMENT_UUID="$(
     printf '%s' "${INPUT}" \
-  | pkgx jq --raw-output '.deployment_uuid'
+  | jq --raw-output '.deployment_uuid'
 )"
 CLUSTER_PREFIX="$(
     printf '%s' "${INPUT}" \
-  | pkgx jq --raw-output '.cluster_prefix'
+  | jq --raw-output '.cluster_prefix'
 )"
 GROUP_PREFIX="$(
     printf '%s' "${INPUT}" \
-  | pkgx jq --raw-output '.group_prefix'
+  | jq --raw-output '.group_prefix'
 )"
 
 OUTPUT_FILE_PATH="${PROJECT_PATH}/get-volumes-${GROUP_PREFIX}.json"
 
 VOLUMES="$(
-  pkgx openstack@latest \
+  openstack \
     --os-cloud "${OS_CLOUD}" \
     volume list \
     --format json \
@@ -51,10 +51,10 @@ map(select(.Properties.DEPLOYMENT_UUID==$deployment_uuid
 
 FILTERED_VOLUMES="$(
     printf "%s" "${VOLUMES}" \
-  | pkgx jq --arg deployment_uuid "${DEPLOYMENT_UUID}" \
-            --arg cluster_prefix "${CLUSTER_PREFIX}" \
-            --arg group_prefix "${GROUP_PREFIX}" \
-            "${VOLUMES_FILTER}"
+  | jq --arg deployment_uuid "${DEPLOYMENT_UUID}" \
+       --arg cluster_prefix "${CLUSTER_PREFIX}" \
+       --arg group_prefix "${GROUP_PREFIX}" \
+       "${VOLUMES_FILTER}"
 )"
 
 printf '%s' \
