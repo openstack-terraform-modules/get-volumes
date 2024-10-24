@@ -8,3 +8,7 @@ output inventory_file_path {
         "NOT FOUND ERROR"
     )
 }
+
+output cluster_prefix {
+    value = var.cluster_prefix
+}
