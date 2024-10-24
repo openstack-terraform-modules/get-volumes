@@ -10,6 +10,9 @@ variable deployment {
 variable cluster_prefix {
     type = string
 }
+variable volume_name {
+    type = string
+}
 //variable OS_CLOUD {
 //    type = string
 //}

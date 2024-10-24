@@ -12,3 +12,7 @@ output inventory_file_path {
 output cluster_prefix {
     value = var.cluster_prefix
 }
+
+output volume_name {
+    value = var.volume_name
+}
